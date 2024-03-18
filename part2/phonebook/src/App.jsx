@@ -15,7 +15,6 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [toFilter, setFilter] = useState("");
-  const [showAll, setShowAll] = useState(true);
 
   const handleNewName = (event) => {
     event.preventDefault();
@@ -56,35 +55,23 @@ const App = () => {
     }
   };
 
-  const handleNameChange = (event) => {
-    setNewName(event.target.value);
-  };
-  const handleNumberChange = (event) => {
-    setNewNumber(event.target.value);
-  };
-
-  const handleFilterChange = (event) => {
-    setFilter(event.target.value);
-    setShowAll(event.target.value.length == 0);
-  };
-
-  const personsToShow = showAll
-    ? persons
-    : persons.filter((person) =>
+  const personsToShow = toFilter
+    ? persons.filter((person) =>
         person.name.toLowerCase().startsWith(toFilter.toLowerCase())
-      );
+      )
+    : persons;
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter val={toFilter} onChange={handleFilterChange} />
+      <Filter val={toFilter} onChange={setFilter} />
       <h3>Add a new</h3>
       <PersonForm
         newName={newName}
         handleNewName={handleNewName}
-        handleNameChange={handleNameChange}
+        handleNameChange={setNewName}
         newNumber={newNumber}
-        handleNumberChange={handleNumberChange}
+        handleNumberChange={setNewNumber}
       />
       <h2>Numbers</h2>
       <Persons persons={personsToShow} handleDelete={handleDelete} />
