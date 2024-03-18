@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import personService from "./services/persons";
+import PersonForm from "./components/PersonForm";
+import Persons from "./components/Persons";
+import Filter from "./components/Filter";
 import { v4 as uuidv4 } from "uuid";
 const App = () => {
   useEffect(() => {
@@ -86,62 +89,6 @@ const App = () => {
       <h2>Numbers</h2>
       <Persons persons={personsToShow} handleDelete={handleDelete} />
     </div>
-  );
-};
-const Filter = (props) => {
-  return (
-    <div>
-      filter shown with:
-      <input value={props.val} onChange={props.onChange} />
-    </div>
-  );
-};
-
-const Persons = ({ persons, handleDelete }) => {
-  return (
-    <ul>
-      {persons.map((person) => (
-        <Person
-          key={person.id}
-          name={person.name}
-          number={person.number}
-          handleDelete={(evt) => handleDelete(person, evt)}
-        />
-      ))}
-    </ul>
-  );
-};
-
-const Person = (person) => {
-  return (
-    <li>
-      {person.name} {person.number}{" "}
-      <button type="submit" onClick={person.handleDelete}>
-        delete
-      </button>
-    </li>
-  );
-};
-
-const PersonForm = ({
-  newName,
-  handleNewName,
-  handleNameChange,
-  newNumber,
-  handleNumberChange,
-}) => {
-  return (
-    <form onSubmit={handleNewName}>
-      <div>
-        name: <input value={newName} onChange={handleNameChange} />
-      </div>
-      <div>
-        number: <input value={newNumber} onChange={handleNumberChange} />
-      </div>
-      <div>
-        <button type="submit">add</button>
-      </div>
-    </form>
   );
 };
 
