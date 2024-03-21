@@ -2,6 +2,8 @@ const http = require("http");
 const express = require("express");
 const app = express();
 
+const Note = require("./models/note");
+
 let notes = [
   {
     id: 1,
@@ -27,7 +29,7 @@ const requestLogger = (request, response, next) => {
   next();
 };
 
-// middleware -- these functinos get called
+// middleware -- these functions get called
 // whenever there is a request
 
 app.use(express.json());
@@ -38,6 +40,7 @@ app.get("/api/notes/:id", (request, response) => {
   const note = notes.find((note) => note.id === id);
 
   if (note) {
+    // //response.send(note.toJSON());
     response.json(note);
   } else {
     response.status(404).end();
@@ -50,8 +53,11 @@ app.delete("/api/notes/:id", (request, response) => {
 
   response.status(204).end();
 });
+
 app.get("/api/notes", (request, response) => {
-  response.json(notes);
+  Note.find({}).then((notes) => {
+    response.json(notes);
+  });
 });
 
 const generateId = () => {
