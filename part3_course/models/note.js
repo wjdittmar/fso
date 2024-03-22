@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 
-// DO NOT SAVE YOUR PASSWORD TO GITHUB!!
 const url = process.env.MONGODB_URI;
-//const url = `mongodb+srv://wjdittmar:${password}@cluster0.0hpvetg.mongodb.net/noteApp?retryWrites=true&w=majority`;
 
 mongoose.set("strictQuery", false);
 mongoose

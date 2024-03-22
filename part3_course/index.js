@@ -2,6 +2,8 @@ const http = require("http");
 const express = require("express");
 const app = express();
 
+require("dotenv").config();
+
 const Note = require("./models/note");
 
 let notes = [
@@ -36,22 +38,23 @@ app.use(express.json());
 app.use(requestLogger);
 
 app.get("/api/notes/:id", (request, response) => {
-  const id = Number(request.params.id);
-  const note = notes.find((note) => note.id === id);
-
-  if (note) {
-    // //response.send(note.toJSON());
-    response.json(note);
-  } else {
-    response.status(404).end();
-  }
+  Note.findById(request.params.id)
+    .then((note) => {
+      response.json(note);
+    })
+    // if there is an error, pass it to the middleware
+    // the fact that you are calling it with a parameter (error)
+    // means that it specifically will be passed to the
+    // "error handler middleware"
+    .catch((error) => next(error));
 });
 
 app.delete("/api/notes/:id", (request, response) => {
-  const id = Number(request.params.id);
-  notes = notes.filter((note) => note.id !== id);
-
-  response.status(204).end();
+  Note.findByIdAndDelete(request.params.id)
+    .then((result) => {
+      response.status(204).end();
+    })
+    .catch((error) => next(error));
 });
 
 app.get("/api/notes", (request, response) => {
@@ -60,32 +63,61 @@ app.get("/api/notes", (request, response) => {
   });
 });
 
-const generateId = () => {
-  const maxId = notes.length > 0 ? Math.max(...notes.map((n) => n.id)) : 0;
-  return maxId + 1;
-};
+app.put("/api/notes/:id", (request, response, next) => {
+  const { content, important } = request.body;
+
+  Note.findByIdAndUpdate(
+    request.params.id,
+    { content, important },
+    { new: true, runValidators: true, context: "query" }
+  )
+    .then((updatedNote) => {
+      response.json(updatedNote);
+    })
+    .catch((error) => next(error));
+});
 
 app.post("/api/notes", (request, response) => {
   const body = request.body;
-
-  if (!body.content) {
-    return response.status(400).json({
-      error: "content missing",
-    });
-  }
-
-  const note = {
+  const note = new Note({
     content: body.content,
-    important: Boolean(body.important) || false,
-    id: generateId(),
-  };
-
-  notes = notes.concat(note);
-
-  response.json(note);
+    important: body.important || false,
+  });
+  note
+    .save()
+    .then((savedNote) => {
+      response.json(savedNote);
+    })
+    .catch((error) => next(error));
 });
 
-const PORT = process.env.PORT || 3001;
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: "unknown endpoint" });
+};
+
+// note that this has to be registered after you
+// define all of your routes
+// otherwise none of the other routes would work
+// it has to be the next to last stop, before error handler
+// handler of requests with unknown endpoint
+app.use(unknownEndpoint);
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id" });
+  } else if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message });
+  }
+
+  next(error);
+};
+// register the error handler middleware last, so that
+// it will be called in case there are any errors in any of the previous functions
+app.use(errorHandler);
+
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
