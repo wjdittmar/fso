@@ -99,6 +99,20 @@ describe('testing API calls', () => {
 
     })
 
+    test('test PUT call', async () => {
+        const allBlogs = await listHelper.getAllBlogs();
+        const blogToUpdate = allBlogs[0]
+        const beforeLike = blogToUpdate.likes;
+        const toUpdateID = blogToUpdate.id;
+        blogToUpdate.likes = beforeLike + 1;
+        await api
+            .put(`/api/blogs/${blogToUpdate.id}`).send(blogToUpdate)
+            .expect(200)
+        const blogsAfterUpdate = await Blog.findById(toUpdateID);
+        assert.strictEqual(blogsAfterUpdate.likes, beforeLike + 1);
+
+    })
+
     test('test POST without url -- should return 400 bad request', async () => {
         const newBlog = {
             _id: "5a422a851b54a676234d17f8",
@@ -112,6 +126,22 @@ describe('testing API calls', () => {
         // make sure that it was not added
         const allBlogs = await listHelper.getAllBlogs();
         assert.strictEqual(allBlogs.length, listHelper.initialBlogs.length)
+    })
+
+    test('test DELETE call', async () => {
+        const allBlogs = await listHelper.getAllBlogs();
+        const blogToDelete = allBlogs[0]
+
+        await api
+            .delete(`/api/blogs/${blogToDelete.id}`)
+            .expect(204)
+
+        const blogsAfterDelete = await listHelper.getAllBlogs();
+
+        assert.strictEqual(blogsAfterDelete.length, listHelper.initialBlogs.length - 1)
+
+        const contents = blogsAfterDelete.map(r => r.id)
+        assert(!contents.includes(blogToDelete.id))
     })
 
 
