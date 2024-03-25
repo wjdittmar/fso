@@ -34,7 +34,7 @@ notesRouter.delete('/:id', async (request, response) => {
 })
 
 
-notesRouter.put('/:id', (request, response, next) => {
+notesRouter.put('/:id', async (request, response, next) => {
     const body = request.body
 
     const note = {
