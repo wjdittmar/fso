@@ -1,5 +1,6 @@
 POST http://localhost:3001/api/blogs/ HTTP/1.1
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IndqZGl0dG1hcjQiLCJpZCI6IjY2MDFmYWE0NjdiZmEzYjIzYWQ1ZWY3YiIsImlhdCI6MTcxMTQwNzMxNX0.awXiXRSLda1NWlDJTDeNrHVMEyAgkyB5tWtZxkPRnT4
 
 {
     "title": "The Lion, The Witch, and the Wardrobe",
