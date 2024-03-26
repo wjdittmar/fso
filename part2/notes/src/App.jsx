@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react'
 import Note from './components/Note'
 import Notification from './components/Notification'
 import Footer from './components/Footer'
+import LoginForm from './components/LoginForm'
 import noteService from './services/notes'
-import loginService from './services/login'
+import AddNoteForm from './components/AddNoteForm'
+
 const App = () => {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('')
@@ -12,55 +14,6 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-
-  const handleLogin = async (event) => {
-    event.preventDefault()
-
-    try {
-      const user = await loginService.login({
-        username, password,
-      })
-      setUser(user)
-      setUsername('')
-      setPassword('')
-    } catch (exception) {
-      setErrorMessage('Wrong credentials')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
-    }
-  }
-  const noteForm = () => (
-    <form onSubmit={addNote}>
-      <input
-        value={newNote}
-        onChange={handleNoteChange}
-      />
-      <button type="submit">save</button>
-    </form>);
-
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-        <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-        <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>);
 
   useEffect(() => {
     noteService
@@ -117,8 +70,8 @@ const App = () => {
       <h1>Notes</h1>
       <Notification message={errorMessage} />
       {user === null ?
-        loginForm() :
-        noteForm()
+        <LoginForm username={username} setUsername={setUsername} setUser={setUser} password={password} setPassword={setPassword} setErrorMessage={setErrorMessage} /> :
+        <AddNoteForm addNote={addNote} newNote={newNote} handleNoteChange={handleNoteChange} />
       }
 
       <h2> Notes</h2>
