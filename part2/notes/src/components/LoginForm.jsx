@@ -1,6 +1,7 @@
 
 import loginService from '../services/login'
 import noteService from '../services/notes'
+import Togglable from './Togglable';
 const LoginForm = ({ username, setUser, setUsername, password, setPassword, setErrorMessage }) => {
     const handleLogin = async (event) => {
         event.preventDefault()
@@ -25,27 +26,28 @@ const LoginForm = ({ username, setUser, setUsername, password, setPassword, setE
             }, 5000)
         }
     }
-    return (
-        <form onSubmit={handleLogin}>
-            <div>
-                username
-                <input
-                    type="text"
-                    value={username}
-                    name="Username"
-                    onChange={({ target }) => setUsername(target.value)}
-                />
-            </div>
-            <div>
-                password
-                <input
-                    type="password"
-                    value={password}
-                    name="Password"
-                    onChange={({ target }) => setPassword(target.value)}
-                />
-            </div>
-            <button type="submit">login</button>
-        </form>)
+    return (<>
+        <Togglable buttonLabel='login'>
+            <form onSubmit={handleLogin}>
+                <div>
+                    username
+                    <input
+                        type="text"
+                        value={username}
+                        name="Username"
+                        onChange={({ target }) => setUsername(target.value)}
+                    />
+                </div>
+                <div>
+                    password
+                    <input
+                        type="password"
+                        value={password}
+                        name="Password"
+                        onChange={({ target }) => setPassword(target.value)}
+                    />
+                </div>
+                <button type="submit">login</button>
+            </form></Togglable></>)
 };
 export default LoginForm;
