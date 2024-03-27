@@ -20,7 +20,6 @@ const App = () => {
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
-    console.log(loggedUserJSON);
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
@@ -34,7 +33,7 @@ const App = () => {
       <Notification message={errorMessage} />
       {user === null ?
         <LoginForm username={username} setUsername={setUsername} setUser={setUser} password={password} setPassword={setPassword} setErrorMessage={setErrorMessage} /> :
-        <Blogs blogs={blogs} name={user.name} />
+        <Blogs blogs={blogs} name={user.name} setUser={setUser} />
       }
     </div>
   );
