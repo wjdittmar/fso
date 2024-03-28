@@ -1,16 +1,20 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Note from './components/Note'
 import Notification from './components/Notification'
 import Footer from './components/Footer'
 import LoginForm from './components/LoginForm'
 import noteService from './services/notes'
 import AddNoteForm from './components/AddNoteForm'
+import Togglable from './components/Togglable';
 
 const App = () => {
   const [notes, setNotes] = useState([])
   const [showAll, setShowAll] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
 
+  // this is basically a way to access the toggleVisibility function of the
+  // Togglable component 
+  const noteFormRef = useRef()
   const [user, setUser] = useState(null)
   useEffect(() => {
     noteService
@@ -30,7 +34,7 @@ const App = () => {
   }, [])
 
   const addNote = (noteObject) => {
-
+    noteFormRef.current.toggleVisibility()
     noteService
       .create(noteObject)
       .then(returnedNote => {
@@ -67,7 +71,8 @@ const App = () => {
       <Notification message={errorMessage} />
       {user === null ?
         <LoginForm setUser={setUser} setErrorMessage={setErrorMessage} /> :
-        <AddNoteForm createNote={addNote} />
+        <Togglable buttonLabel='new note' ref={noteFormRef}>
+          <AddNoteForm createNote={addNote} /></Togglable>
       }
 
       <h2> Notes</h2>
