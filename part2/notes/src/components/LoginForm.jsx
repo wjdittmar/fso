@@ -2,7 +2,11 @@
 import loginService from '../services/login'
 import noteService from '../services/notes'
 import Togglable from './Togglable';
-const LoginForm = ({ username, setUser, setUsername, password, setPassword, setErrorMessage }) => {
+import { useState } from 'react'
+const LoginForm = ({ setUser, setErrorMessage }) => {
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+
     const handleLogin = async (event) => {
         event.preventDefault()
 
