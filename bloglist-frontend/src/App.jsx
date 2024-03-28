@@ -1,17 +1,18 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import blogService from './services/blogs'
 import Blogs from './components/Blogs'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import AddBlog from "./components/AddBlog"
+import Togglable from './components/Togglable'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [notification, setNotification] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-
+  const blogFormRef = useRef()
   const [author, setAuthor] = useState("");
   const [url, setURL] = useState("");
   const [title, setTitle] = useState("");
@@ -31,6 +32,7 @@ const App = () => {
 
   const handleNewBlog = (event) => {
     event.preventDefault();
+    blogFormRef.current.toggleVisibility();
     const blogObject = {
       author: author,
       title: title,
@@ -39,6 +41,7 @@ const App = () => {
 
     blogService.create(blogObject).then(res => {
       notify(`${res.title} by ${res.author} has been added`)
+      setBlogs(blogs.concat(res))
     }).catch(error => {
       notify(`Error: ${error}`)
     });
@@ -66,7 +69,9 @@ const App = () => {
       {user === null ?
         <LoginForm username={username} setUsername={setUsername} setUser={setUser} password={password} setPassword={setPassword} setErrorMessage={notifyError} /> :
         <>
-          <AddBlog handleNewBlog={handleNewBlog} author={author} setAuthor={setAuthor} url={url} setURL={setURL} title={title} setTitle={setTitle} />
+          <Togglable buttonLabel='new blog' ref={blogFormRef}>
+            <AddBlog handleNewBlog={handleNewBlog} author={author} setAuthor={setAuthor} url={url} setURL={setURL} title={title} setTitle={setTitle} />
+          </Togglable>
           <Blogs blogs={blogs} name={user.name} setUser={setUser} />
         </>
       }
