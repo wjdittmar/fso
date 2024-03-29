@@ -20,7 +20,7 @@ const Blogs = ({ blogs, name, setUser, handleVote }) => {
             <p> {name} is logged in</p> <button onClick={handleLogout}> logout</button>
             <h2>blogs</h2>
             {
-                blogs.map(blog =>
+                blogs.sort((a, b) => a.likes - b.likes).map(blog =>
                     <Blog key={blog.id} blog={blog} handleVote={handleVote} />
                 )
             }
