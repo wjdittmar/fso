@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import storageService from '../services/storage'
+import PropTypes from 'prop-types'
 const Blog = ({ blog, handleVote, handleDelete }) => {
 	const [detailsVisible, setDetailsVisible] = useState(false)
 	const blogStyle = {
@@ -77,6 +78,11 @@ const Blog = ({ blog, handleVote, handleDelete }) => {
 		</div >
 
 	);
+}
+Blog.propTypes = {
+	blog: PropTypes.object.isRequired,
+	handleVote: PropTypes.func.isRequired,
+	handleDelete: PropTypes.func.isRequired
 }
 
 export default Blog
