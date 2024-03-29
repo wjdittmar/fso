@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 
 import loginService from '../services/login'
 import noteService from '../services/notes'
@@ -34,7 +35,7 @@ const LoginForm = ({ setUser, setErrorMessage }) => {
 		<Togglable buttonLabel='login'>
 			<form onSubmit={handleLogin}>
 				<div>
-                    username
+					username
 					<input
 						type="text"
 						value={username}
@@ -43,7 +44,7 @@ const LoginForm = ({ setUser, setErrorMessage }) => {
 					/>
 				</div>
 				<div>
-                    password
+					password
 					<input
 						type="password"
 						value={password}
@@ -54,4 +55,9 @@ const LoginForm = ({ setUser, setErrorMessage }) => {
 				<button type="submit">login</button>
 			</form></Togglable></>)
 };
+
+LoginForm.propTypes = {
+	setUser: PropTypes.func.isRequired,
+	setErrorMessage: PropTypes.func.isRequired
+}
 export default LoginForm;
