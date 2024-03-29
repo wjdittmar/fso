@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ blog, handleVote }) => {
+const Blog = ({ blog, handleVote, handleDelete }) => {
   const [detailsVisible, setDetailsVisible] = useState(false)
   const blogStyle = {
     paddingTop: 10,
@@ -50,7 +50,7 @@ const Blog = ({ blog, handleVote }) => {
   const toggleVisibility = () => {
     setDetailsVisible(!detailsVisible)
   }
-  console.log(blog.user[0])
+  //const canRemove = blog.user ? blog.user.username === storage.me() : true
 
   return (
     <div style={blogStyle}>

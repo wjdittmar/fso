@@ -48,6 +48,16 @@ const App = () => {
     setBlogs(blogs.map(b => b.id === prevBlog.id ? updatedBlog : b))
   }
 
+  const handleDelete = async (blog) => {
+
+    const res = await blogService.remove(blog.id);
+    if (window.confirm(`Would you like to delete ${blog.title}?`)) {
+      setBlogs(blogs.filter(b => b.id !== blog.id))
+      notify(`You deleted ${blog.title} by ${blog.author}`)
+
+    }
+  }
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
@@ -82,7 +92,7 @@ const App = () => {
             <AddBlog createBlog={handleNewBlog} />
           </Togglable>
           <p> {user.name} is logged in</p> <button onClick={handleLogout}> logout</button>
-          <Blogs blogs={blogs} handleVote={handleVote} />
+          <Blogs blogs={blogs} handleVote={handleVote} handleDelete={handleDelete} />
         </>
       }
     </div>
