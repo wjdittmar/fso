@@ -50,6 +50,7 @@ const Blog = ({ blog, handleVote }) => {
   const toggleVisibility = () => {
     setDetailsVisible(!detailsVisible)
   }
+  console.log(blog.user[0])
 
   return (
     <div style={blogStyle}>
@@ -66,7 +67,9 @@ const Blog = ({ blog, handleVote }) => {
             <div>Author: {blog.author}</div>
             <div>URL: {blog.url}</div>
             <div>Likes: {blog.likes} <button style={buttonStyle} onClick={() => handleVote(blog)}> like</button></div>
-            {blog.user[0] ? blog.user[0].name : null}
+            <div>{blog.user[0] ? blog.user[0].name : null}</div>
+            {blog.user[0] && blog.user[0].name == blog.user.name && "hello"}
+            <div><button style={buttonStyle} onClick={() => handleDelete(blog)}>delete entry</button></div>
           </div>
           <button style={buttonStyle} onClick={toggleVisibility}>cancel</button>
         </div>

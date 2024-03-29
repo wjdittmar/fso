@@ -63,6 +63,14 @@ const App = () => {
     }
   }, []);
 
+  const handleLogout = async (event) => {
+    window.localStorage.setItem(
+      'loggedBlogappUser', ''
+    )
+    blogService.setToken('')
+    setUser(null)
+  }
+
   return (
     <div>
       <h1>Blogs</h1>
@@ -73,7 +81,8 @@ const App = () => {
           <Togglable buttonLabel='new blog' ref={blogFormRef}>
             <AddBlog createBlog={handleNewBlog} />
           </Togglable>
-          <Blogs blogs={blogs} name={user.name} setUser={setUser} handleVote={handleVote} />
+          <p> {user.name} is logged in</p> <button onClick={handleLogout}> logout</button>
+          <Blogs blogs={blogs} handleVote={handleVote} />
         </>
       }
     </div>
