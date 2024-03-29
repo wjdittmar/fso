@@ -1,5 +1,5 @@
 import { useState } from 'react'
-
+import storageService from '../services/storage'
 const Blog = ({ blog, handleVote, handleDelete }) => {
   const [detailsVisible, setDetailsVisible] = useState(false)
   const blogStyle = {
@@ -50,7 +50,8 @@ const Blog = ({ blog, handleVote, handleDelete }) => {
   const toggleVisibility = () => {
     setDetailsVisible(!detailsVisible)
   }
-  //const canRemove = blog.user ? blog.user.username === storage.me() : true
+
+  const canRemove = blog.user ? blog.user.username === storageService.me() : true;
 
   return (
     <div style={blogStyle}>
@@ -67,9 +68,8 @@ const Blog = ({ blog, handleVote, handleDelete }) => {
             <div>Author: {blog.author}</div>
             <div>URL: {blog.url}</div>
             <div>Likes: {blog.likes} <button style={buttonStyle} onClick={() => handleVote(blog)}> like</button></div>
-            <div>{blog.user[0] ? blog.user[0].name : null}</div>
-            {blog.user[0] && blog.user[0].name == blog.user.name && "hello"}
-            <div><button style={buttonStyle} onClick={() => handleDelete(blog)}>delete entry</button></div>
+            <div>{blog.user ? blog.user.name : null}</div>
+            {canRemove && <div><button style={buttonStyle} onClick={() => handleDelete(blog)}>delete entry</button></div>}
           </div>
           <button style={buttonStyle} onClick={toggleVisibility}>cancel</button>
         </div>

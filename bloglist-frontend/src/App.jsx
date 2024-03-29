@@ -66,20 +66,18 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    const loggedUserJSON = storageService.me();
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
+    const user = storageService.loadUser();
+    if (user) {
       setUser(user)
       blogService.setToken(user.token)
     }
   }, []);
 
   const handleLogout = async (event) => {
-    window.localStorage.setItem(
-      'loggedBlogappUser', ''
-    )
-    blogService.setToken('')
-    setUser(null)
+
+    storageService.logoutUser();
+    blogService.setToken('');
+    setUser(null);
   }
 
   return (
