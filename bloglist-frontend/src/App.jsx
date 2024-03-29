@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 
 import blogService from './services/blogs'
+import storageService from './services/storage'
 import Blogs from './components/Blogs'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
@@ -65,7 +66,7 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    const loggedUserJSON = storageService.me();
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
