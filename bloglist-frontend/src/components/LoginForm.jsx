@@ -4,46 +4,46 @@ import blogService from '../services/blogs'
 import storageService from '../services/storage'
 
 const LoginForm = ({ setUser, setErrorMessage }) => {
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+	const [username, setUsername] = useState('')
+	const [password, setPassword] = useState('')
 
-    const handleLogin = async (event) => {
-        event.preventDefault()
+	const handleLogin = async (event) => {
+		event.preventDefault()
 
-        try {
-            const user = await loginService.login({
-                username, password,
-            })
-            storageService.saveUser(user);
-            blogService.setToken(user.token)
-            setUser(user)
-            setUsername('')
-            setPassword('')
-        } catch (exception) {
-            setErrorMessage('Wrong credentials')
-        }
-    }
-    return (
-        <form onSubmit={handleLogin}>
-            <div>
-                username
-                <input
-                    type="text"
-                    value={username}
-                    name="Username"
-                    onChange={({ target }) => setUsername(target.value)}
-                />
-            </div>
-            <div>
-                password
-                <input
-                    type="password"
-                    value={password}
-                    name="Password"
-                    onChange={({ target }) => setPassword(target.value)}
-                />
-            </div>
-            <button type="submit">login</button>
-        </form>)
+		try {
+			const user = await loginService.login({
+				username, password,
+			})
+			storageService.saveUser(user);
+			blogService.setToken(user.token)
+			setUser(user)
+			setUsername('')
+			setPassword('')
+		} catch (exception) {
+			setErrorMessage('Wrong credentials')
+		}
+	}
+	return (
+		<form onSubmit={handleLogin}>
+			<div>
+				username
+				<input
+					type="text"
+					value={username}
+					name="Username"
+					onChange={({ target }) => setUsername(target.value)}
+				/>
+			</div>
+			<div>
+				password
+				<input
+					type="password"
+					value={password}
+					name="Password"
+					onChange={({ target }) => setPassword(target.value)}
+				/>
+			</div>
+			<button type="submit">login</button>
+		</form>)
 };
 export default LoginForm;
