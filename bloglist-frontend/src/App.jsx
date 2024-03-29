@@ -37,6 +37,17 @@ const App = () => {
     });
   }
 
+  const handleVote = async (prevBlog) => {
+
+    const updatedBlog = await blogService.update(prevBlog.id, {
+      ...prevBlog,
+      likes: prevBlog.likes + 1
+    })
+
+    notify(`You liked ${updatedBlog.title} by ${updatedBlog.author}`)
+    setBlogs(blogs.map(b => b.id === prevBlog.id ? updatedBlog : b))
+  }
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
@@ -62,7 +73,7 @@ const App = () => {
           <Togglable buttonLabel='new blog' ref={blogFormRef}>
             <AddBlog createBlog={handleNewBlog} />
           </Togglable>
-          <Blogs blogs={blogs} name={user.name} setUser={setUser} />
+          <Blogs blogs={blogs} name={user.name} setUser={setUser} handleVote={handleVote} />
         </>
       }
     </div>
