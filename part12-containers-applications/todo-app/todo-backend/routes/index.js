@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 router.get('/statistics', async (req, res) => {
 	redis.getAsync("added_todos").then((result) => {
 		res.send({
-			"added_todos": result
+			"added_todos": parseInt(result) || 0
 		})
 	})
 })

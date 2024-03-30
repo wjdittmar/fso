@@ -62,3 +62,4 @@ typings/
 
 # database files
 mongo_data
+redis_data
