@@ -6,8 +6,13 @@ services:
       dockerfile: dev.Dockerfile
     volumes:
       - ./todo-frontend:/usr/src/app
-    ports:
-      - 5173:5173
+    # do not need to expose this anymore, because we are accessing everything through
+    # nginx -- and the nginx.dev.conf file 
+    # forwards / to port 5173, and is in the same container as the frontend 
+    # so does not need the port exposed
+
+    #ports:
+    #  - 5173:5173
     container_name: todo-frontend # This will name the container todo-frontend
     depends_on:
       - backend
@@ -45,8 +50,13 @@ services:
     build:
       context: ./todo-backend
       dockerfile: dev.Dockerfile
-    ports:
-      - 3000:3000
+
+    # do not need to expose this anymore, because we are accessing everything through
+    # nginx -- and the nginx.dev.conf file 
+    # forwards /api/todos to localhost:3000, and is in the same container as the backend 
+    # so does not need the port exposed
+    #ports:
+    #  - 3000:3000
     environment:
       - MONGO_URL=mongodb://the_username:the_password@mongo:27017/the_database
       - REDIS_URL=redis://redis:6379
