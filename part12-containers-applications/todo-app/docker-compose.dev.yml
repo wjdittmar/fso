@@ -39,9 +39,12 @@ services:
      - 6379:6379
     command: ['redis-server', '--appendonly', 'yes'] # Overwrite the CMD
     volumes: # Declare the volume
-      - ./redis_data:/data
+      - ./todo-backend/redis_data:/data
   backend:
     image: backend-dev
+    build:
+      context: ./todo-backend
+      dockerfile: dev.Dockerfile
     ports:
       - 3000:3000
     environment:
@@ -50,3 +53,5 @@ services:
     depends_on:
       - mongo
       - redis
+    volumes:
+      - ./todo-backend/:/usr/src/app
