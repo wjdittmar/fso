@@ -45,7 +45,7 @@ singleRouter.get('/', async (req, res) => {
 singleRouter.put('/', async (req, res) => {
 	await Todo.replaceOne(req.todo, {
 		text: req.body.text,
-		done: false
+		done: req.body.done
 	});
 	res.sendStatus(200);
 });
