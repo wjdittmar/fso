@@ -1,14 +1,6 @@
 import { useDispatch } from 'react-redux'
-
+import { createAnecdote } from '../reducers/anecdoteReducer'
 const AnecdoteForm = () => {
-
-	const createAnecdote = (content) => {
-		return ({
-			type: 'CREATE',
-			payload: content
-		})
-	}
-
 
 	const dispatch = useDispatch()
 
