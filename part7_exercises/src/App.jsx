@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import {
 	BrowserRouter as Router,
-	Routes, Route, Link, useParams
+	Routes, Route, Link, useParams, useNavigate
 } from 'react-router-dom'
 
 const Menu = () => {
@@ -35,7 +35,7 @@ const AnecdoteList = ({ anecdotes }) => (
 		<ul>
 			{anecdotes.map((anecdote) => (
 				<>
-					<li><Link to={`/anecdotes/${anecdote.id}`}> {anecdote.content}</Link></li>
+					<li key={anecdote.id}><Link to={`/anecdotes/${anecdote.id}`}> {anecdote.content}</Link></li>
 				</>
 			))}
 		</ul>
@@ -65,6 +65,7 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
+	const navigate = useNavigate()
 	const [content, setContent] = useState('')
 	const [author, setAuthor] = useState('')
 	const [info, setInfo] = useState('')
@@ -78,6 +79,7 @@ const CreateNew = (props) => {
 			info,
 			votes: 0
 		})
+		navigate('/')
 	}
 
 	return (
