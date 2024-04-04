@@ -3,7 +3,7 @@ import qs from 'qs';
 const app = express();
 import { calculateBmi } from './bmiCalculator';
 app.set('query parser',
-	(str: string) => qs.parse(str, {}))
+	(str: string) => qs.parse(str, {}));
 
 app.get('/hello', (_req, res) => {
 	res.send('Hello full stack!');
@@ -18,7 +18,7 @@ app.get('/bmi', (req, res) => {
 	console.log(result);
 	calculateBmi(222, 23);
 
-	console.log(req.query)
+	console.log(req.query);
 	res.send({ mass: mass, height: height, bmi: result });
 });
 

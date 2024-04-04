@@ -9,6 +9,6 @@ const calculateBmi = (height: number, mass: number): string => {
 	else {
 		return "Obese";
 	}
-}
+};
 
-export { calculateBmi }
+export { calculateBmi };

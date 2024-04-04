@@ -6,8 +6,8 @@ interface ExerciseStats {
 	target: number,
 	average: number
 }
-  
-const exerciseCalculator = (hours : number[], target : number) : ExerciseStats => {
+
+const exerciseCalculator = (hours: number[], target: number): ExerciseStats => {
 	const numHours = hours.reduce((partialSum, e) => partialSum + e, 0);
 	const average = numHours / hours.length;
 	const didSucceed = average >= target;
@@ -17,9 +17,9 @@ const exerciseCalculator = (hours : number[], target : number) : ExerciseStats =
 		trainingDays: hours.filter((day) => day > 0).length,
 		target: target,
 		success: didSucceed,
-		ratingDescription : ratingDescription,
-		average : average
+		ratingDescription: ratingDescription,
+		average: average
 	};
-}
+};
 
 console.log(exerciseCalculator([3, 0, 2, 4.5, 0, 3, 1], 2));
