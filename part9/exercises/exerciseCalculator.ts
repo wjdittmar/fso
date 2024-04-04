@@ -7,7 +7,7 @@ interface ExerciseStats {
 	average: number
 }
 
-const exerciseCalculator = (hours: number[], target: number): ExerciseStats => {
+export const exerciseCalculator = (hours: number[], target: number): ExerciseStats => {
 	const numHours = hours.reduce((partialSum, e) => partialSum + e, 0);
 	const average = numHours / hours.length;
 	const didSucceed = average >= target;
