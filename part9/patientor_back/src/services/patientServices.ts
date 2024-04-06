@@ -1,4 +1,4 @@
-import patients from '../../data/patients';
+import patients from '../../data/patients-full';
 import { Patient, PatientWithoutSSN, NewPatient } from '../types';
 import { v1 as uuid } from 'uuid'
 
@@ -15,12 +15,13 @@ const getPatient = (idToFind: string): Patient => {
 }
 
 const getPatientsWithoutSSN = (): PatientWithoutSSN[] => {
-	return patients.map(({ dateOfBirth, gender, id, occupation, name }) => ({
+	return patients.map(({ dateOfBirth, gender, id, occupation, name, entries }) => ({
 		dateOfBirth,
 		gender,
 		id,
 		occupation,
-		name
+		name,
+		entries
 	}));
 
 }
