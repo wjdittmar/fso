@@ -1,10 +1,10 @@
 import { CoursePartList } from "../types";
-
+import Part from "./part";
 export default function Content({ courses }: CoursePartList) {
 	return (
 		<>
 			{courses.map((course) => (
-				<p key={course.name}> {course.name} {course.exerciseCount}</p>
+				<Part key={course.name} course={course} />
 			))}
 		</>
 	);
