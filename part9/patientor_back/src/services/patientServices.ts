@@ -6,6 +6,14 @@ const getPatients = (): Patient[] => {
 	return patients;
 };
 
+const getPatient = (idToFind: string): Patient => {
+	const patient = patients.find(({ id }) => id === idToFind);
+	if (patient) {
+		return patient;
+	}
+	else throw new Error("Could not find");
+}
+
 const getPatientsWithoutSSN = (): PatientWithoutSSN[] => {
 	return patients.map(({ dateOfBirth, gender, id, occupation, name }) => ({
 		dateOfBirth,
@@ -32,5 +40,6 @@ const addPatient = (
 export default {
 	getPatients,
 	getPatientsWithoutSSN,
-	addPatient
+	addPatient,
+	getPatient
 };
