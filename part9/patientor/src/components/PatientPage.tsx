@@ -1,5 +1,5 @@
 import { Patient } from "../types";
-import EntryPage from "./EntryPage";
+import EntryPage from "./EntryPage/EntryPage";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import patientService from "../services/patients";
@@ -17,7 +17,7 @@ const PatientPage = () => {
 	}, [id]);
 
 	if (!patient) return null;
-	
+
 	return (
 		<>
 			<h2>{patient.name}</h2 >

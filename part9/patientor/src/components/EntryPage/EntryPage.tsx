@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Diagnosis, Entry } from "../types";
-import diagnosesService from '../services/diagnoses';
+import { Diagnosis, Entry } from "../../types";
+import diagnosesService from '../../services/diagnoses';
+import EntryDetails from './EntryDetails'
 
 const EntryPage = ({ entry }: { entry: Entry }) => {
 
@@ -11,8 +12,6 @@ const EntryPage = ({ entry }: { entry: Entry }) => {
 			setDiagnoses(data);
 		});
 	}, []);
-	console.log(diagnoses);
-	console.log(diagnoses.find((ele) => ele.code === 'M24.2'));
 	return (
 		<>
 			<p> {entry.date} <em> {entry.description}</em></p>
@@ -24,7 +23,8 @@ const EntryPage = ({ entry }: { entry: Entry }) => {
 					</li>
 				))}
 			</ul>
+			<EntryDetails entry={entry} />
 		</>);
-}
+};
 
 export default EntryPage;
